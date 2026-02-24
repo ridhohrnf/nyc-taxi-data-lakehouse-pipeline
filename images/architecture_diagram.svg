@@ -1,0 +1,188 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0c29"/>
+      <stop offset="50%" style="stop-color:#302b63"/>
+      <stop offset="100%" style="stop-color:#24243e"/>
+    </linearGradient>
+    <linearGradient id="bronzeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#cd7f32;stop-opacity:0.25"/>
+      <stop offset="100%" style="stop-color:#cd7f32;stop-opacity:0.08"/>
+    </linearGradient>
+    <linearGradient id="silverGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#c0c0c0;stop-opacity:0.25"/>
+      <stop offset="100%" style="stop-color:#c0c0c0;stop-opacity:0.08"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd700;stop-opacity:0.25"/>
+      <stop offset="100%" style="stop-color:#ffd700;stop-opacity:0.08"/>
+    </linearGradient>
+    <linearGradient id="servingGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:0.25"/>
+      <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:0.08"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="700" fill="url(#bgGrad)" rx="12"/>
+
+  <!-- Title -->
+  <text x="600" y="45" text-anchor="middle" fill="#ffffff" font-size="22" font-weight="700" letter-spacing="1">🚕 NYC Taxi Data Lakehouse — Pipeline Architecture</text>
+  <line x1="200" y1="58" x2="1000" y2="58" stroke="#ffffff" stroke-opacity="0.15" stroke-width="1"/>
+
+  <!-- ===== DATA SOURCE ===== -->
+  <rect x="30" y="85" width="160" height="560" rx="10" fill="#1a1a2e" stroke="#e94560" stroke-width="1.5" stroke-opacity="0.6" filter="url(#shadow)"/>
+  <text x="110" y="110" text-anchor="middle" fill="#e94560" font-size="12" font-weight="700">DATA SOURCE</text>
+  <!-- NYC TLC Box -->
+  <rect x="45" y="220" width="130" height="100" rx="8" fill="#16213e" stroke="#e94560" stroke-width="1"/>
+  <text x="110" y="250" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="600">🌐 NYC TLC</text>
+  <text x="110" y="270" text-anchor="middle" fill="#aaaaaa" font-size="10">Trip Record</text>
+  <text x="110" y="285" text-anchor="middle" fill="#aaaaaa" font-size="10">Data (Parquet)</text>
+  <text x="110" y="305" text-anchor="middle" fill="#888888" font-size="9">Green Taxi 2024</text>
+
+  <!-- ===== INGESTION + ORCHESTRATION ===== -->
+  <rect x="210" y="85" width="180" height="560" rx="10" fill="#1a1a2e" stroke="#017CEE" stroke-width="1.5" stroke-opacity="0.6" filter="url(#shadow)"/>
+  <text x="300" y="110" text-anchor="middle" fill="#017CEE" font-size="12" font-weight="700">ORCHESTRATION</text>
+  <!-- Airflow -->
+  <rect x="225" y="170" width="150" height="75" rx="8" fill="#16213e" stroke="#017CEE" stroke-width="1"/>
+  <text x="300" y="198" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="600">🔄 Apache Airflow</text>
+  <text x="300" y="218" text-anchor="middle" fill="#aaaaaa" font-size="10">DAG Scheduler</text>
+  <text x="300" y="233" text-anchor="middle" fill="#888888" font-size="9">@monthly schedule</text>
+  <!-- Airflow Tasks -->
+  <rect x="225" y="265" width="150" height="130" rx="8" fill="#0d1b2a" stroke="#017CEE" stroke-width="0.8" stroke-dasharray="4,3"/>
+  <text x="300" y="285" text-anchor="middle" fill="#017CEE" font-size="10" font-weight="600">DAG Tasks</text>
+  <text x="240" y="305" fill="#cccccc" font-size="9">① Download Dataset</text>
+  <text x="240" y="322" fill="#cccccc" font-size="9">② Upload to MinIO</text>
+  <text x="240" y="339" fill="#cccccc" font-size="9">③ Bronze → Silver</text>
+  <text x="240" y="356" fill="#cccccc" font-size="9">④ Validate Silver</text>
+  <text x="240" y="373" fill="#cccccc" font-size="9">⑤ Build Gold Tables</text>
+  <text x="240" y="390" fill="#cccccc" font-size="9">⑥ Slack Notification</text>
+  <!-- PostgreSQL -->
+  <rect x="225" y="420" width="150" height="60" rx="8" fill="#16213e" stroke="#336791" stroke-width="1"/>
+  <text x="300" y="446" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="600">🐘 PostgreSQL</text>
+  <text x="300" y="466" text-anchor="middle" fill="#aaaaaa" font-size="9">Airflow Metadata DB</text>
+
+  <!-- ===== STORAGE (MEDALLION) ===== -->
+  <rect x="410" y="85" width="390" height="560" rx="10" fill="#1a1a2e" stroke="#c0c0c0" stroke-width="1.5" stroke-opacity="0.4" filter="url(#shadow)"/>
+  <text x="605" y="110" text-anchor="middle" fill="#c0c0c0" font-size="12" font-weight="700">DATA LAKEHOUSE — MEDALLION ARCHITECTURE</text>
+
+  <!-- MinIO Header -->
+  <rect x="425" y="130" width="360" height="38" rx="6" fill="#16213e" stroke="#C72E49" stroke-width="1"/>
+  <text x="605" y="155" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="600">🪣 MinIO (S3-Compatible Object Storage)</text>
+
+  <!-- Bronze Layer -->
+  <rect x="425" y="185" width="360" height="95" rx="8" fill="url(#bronzeGrad)" stroke="#cd7f32" stroke-width="1.2"/>
+  <text x="445" y="210" fill="#cd7f32" font-size="13" font-weight="700">🥉 Bronze Layer</text>
+  <text x="445" y="230" fill="#cccccc" font-size="10">Raw Parquet files ingested from NYC TLC</text>
+  <text x="445" y="248" fill="#888888" font-size="9">s3a://lakehouse/raw/{year}/{month}/</text>
+  <text x="445" y="266" fill="#888888" font-size="9">+ taxi_zone_lookup.csv</text>
+
+  <!-- Silver Layer -->
+  <rect x="425" y="295" width="360" height="110" rx="8" fill="url(#silverGrad)" stroke="#c0c0c0" stroke-width="1.2"/>
+  <text x="445" y="320" fill="#c0c0c0" font-size="13" font-weight="700">🥈 Silver Layer</text>
+  <text x="445" y="340" fill="#cccccc" font-size="10">Cleaned, validated Delta Lake tables</text>
+  <text x="445" y="358" fill="#888888" font-size="9">• Schema enforcement &amp; type casting</text>
+  <text x="445" y="373" fill="#888888" font-size="9">• Data quality filters &amp; null removal</text>
+  <text x="445" y="388" fill="#888888" font-size="9">• Surrogate key (SHA-256) generation</text>
+
+  <!-- Gold Layer -->
+  <rect x="425" y="420" width="360" height="140" rx="8" fill="url(#goldGrad)" stroke="#ffd700" stroke-width="1.2"/>
+  <text x="445" y="445" fill="#ffd700" font-size="13" font-weight="700">🥇 Gold Layer — Star Schema</text>
+  <!-- Fact -->
+  <rect x="440" y="458" width="150" height="40" rx="5" fill="#1a1a2e" stroke="#ffd700" stroke-width="0.8"/>
+  <text x="515" y="478" text-anchor="middle" fill="#ffd700" font-size="10" font-weight="600">⭐ fact_trip</text>
+  <text x="515" y="492" text-anchor="middle" fill="#aaaaaa" font-size="8">Fare, Distance, Duration</text>
+  <!-- Dimensions -->
+  <rect x="440" y="505" width="100" height="30" rx="4" fill="#1a1a2e" stroke="#ffd700" stroke-width="0.6"/>
+  <text x="490" y="524" text-anchor="middle" fill="#cccccc" font-size="9">dim_weekday</text>
+  <rect x="548" y="505" width="110" height="30" rx="4" fill="#1a1a2e" stroke="#ffd700" stroke-width="0.6"/>
+  <text x="603" y="524" text-anchor="middle" fill="#cccccc" font-size="9">dim_paymenttype</text>
+  <rect x="666" y="505" width="104" height="30" rx="4" fill="#1a1a2e" stroke="#ffd700" stroke-width="0.6"/>
+  <text x="718" y="524" text-anchor="middle" fill="#cccccc" font-size="9">dim_location</text>
+
+  <!-- Processing Engine -->
+  <rect x="430" y="573" width="165" height="55" rx="8" fill="#16213e" stroke="#E25A1C" stroke-width="1"/>
+  <text x="512" y="598" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="600">⚡ Apache Spark</text>
+  <text x="512" y="616" text-anchor="middle" fill="#aaaaaa" font-size="9">Distributed Processing</text>
+
+  <rect x="610" y="573" width="165" height="55" rx="8" fill="#16213e" stroke="#003366" stroke-width="1"/>
+  <text x="692" y="598" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="600">🔺 Delta Lake</text>
+  <text x="692" y="616" text-anchor="middle" fill="#aaaaaa" font-size="9">ACID Transactions</text>
+
+  <!-- ===== SERVING LAYER ===== -->
+  <rect x="820" y="85" width="350" height="560" rx="10" fill="#1a1a2e" stroke="#00d4ff" stroke-width="1.5" stroke-opacity="0.6" filter="url(#shadow)"/>
+  <text x="995" y="110" text-anchor="middle" fill="#00d4ff" font-size="12" font-weight="700">SERVING LAYER</text>
+
+  <!-- Hive Metastore -->
+  <rect x="845" y="200" width="300" height="80" rx="8" fill="#16213e" stroke="#FFA500" stroke-width="1"/>
+  <text x="995" y="230" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="600">📚 Hive Metastore</text>
+  <text x="995" y="250" text-anchor="middle" fill="#aaaaaa" font-size="10">Unified Metadata Catalog</text>
+  <text x="995" y="268" text-anchor="middle" fill="#888888" font-size="9">Schema registry for Delta tables</text>
+
+  <!-- MariaDB -->
+  <rect x="845" y="300" width="300" height="55" rx="8" fill="#16213e" stroke="#003545" stroke-width="1"/>
+  <text x="995" y="325" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="600">🗄️ MariaDB</text>
+  <text x="995" y="343" text-anchor="middle" fill="#aaaaaa" font-size="9">Hive Metastore Backend DB</text>
+
+  <!-- Trino -->
+  <rect x="845" y="390" width="300" height="100" rx="8" fill="#16213e" stroke="#DD00A1" stroke-width="1.2"/>
+  <text x="995" y="418" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="600">🔍 Trino</text>
+  <text x="995" y="440" text-anchor="middle" fill="#aaaaaa" font-size="10">Distributed SQL Query Engine</text>
+  <text x="995" y="460" text-anchor="middle" fill="#888888" font-size="9">Coordinator + Worker nodes</text>
+  <text x="995" y="478" text-anchor="middle" fill="#888888" font-size="9">Interactive analytics on Gold tables</text>
+
+  <!-- Slack -->
+  <rect x="845" y="520" width="300" height="55" rx="8" fill="#16213e" stroke="#4A154B" stroke-width="1"/>
+  <text x="995" y="548" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="600">💬 Slack Notification</text>
+  <text x="995" y="564" text-anchor="middle" fill="#aaaaaa" font-size="9">Pipeline completion alerts</text>
+
+  <!-- Docker -->
+  <rect x="845" y="595" width="300" height="40" rx="8" fill="#16213e" stroke="#2496ED" stroke-width="1"/>
+  <text x="995" y="620" text-anchor="middle" fill="#2496ED" font-size="12" font-weight="600">🐳 Docker Compose — 9 Containers</text>
+
+  <!-- ===== ARROWS ===== -->
+  <!-- Source to Airflow -->
+  <line x1="175" y1="270" x2="225" y2="207" stroke="#e94560" stroke-width="2" marker-end="url(#arrowRed)" filter="url(#glow)"/>
+  <!-- Airflow to MinIO Bronze -->
+  <line x1="375" y1="207" x2="425" y2="230" stroke="#017CEE" stroke-width="2" marker-end="url(#arrowBlue)" filter="url(#glow)"/>
+  <!-- Bronze to Silver (via Spark) -->
+  <path d="M605,280 L605,295" stroke="#E25A1C" stroke-width="2" marker-end="url(#arrowOrange)"/>
+  <!-- Silver to Gold (via Spark) -->
+  <path d="M605,405 L605,420" stroke="#E25A1C" stroke-width="2" marker-end="url(#arrowOrange)"/>
+  <!-- Gold to Hive Metastore -->
+  <line x1="785" y1="460" x2="845" y2="240" stroke="#FFA500" stroke-width="2" marker-end="url(#arrowYellow)" filter="url(#glow)"/>
+  <!-- Hive to Trino -->
+  <path d="M995,355 L995,390" stroke="#DD00A1" stroke-width="2" marker-end="url(#arrowPink)"/>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrowRed" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#e94560"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#017CEE"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#E25A1C"/>
+    </marker>
+    <marker id="arrowYellow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#FFA500"/>
+    </marker>
+    <marker id="arrowPink" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#DD00A1"/>
+    </marker>
+  </defs>
+
+  <!-- Footer -->
+  <text x="600" y="680" text-anchor="middle" fill="#666666" font-size="10">Fully Containerized with Docker Compose • Zero Cloud Cost • Open-Source Stack</text>
+</svg>
